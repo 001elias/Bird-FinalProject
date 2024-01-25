@@ -1,0 +1,35 @@
+Daily Scrum 
+---------------
+Elias Barrellet
+Zachary McRae
+Ayman Zriek
+---------------
+**Only this part of the scrum wasn't writen from the shared repo**
+Jan 24th 2024
+
+1) What we did since last meeting:
+
+Elias: Pages 1, 4 and 5 of the proposal. Researched Socket.io (for messaging capabilities)
+
+Zachary: Database outline and use case outline for proposal.
+
+Ayman: Database outline, screenshots for site mockup.
+
+
+2) What we plan on doing today:
+
+Elias: Setup github.
+
+Zachary: Finish database diagram and use case diagram, write out sql for database.
+
+Ayman: Setup trello and invite Elias and Zack.
+
+
+3) Difficulties we expect to face today:
+
+Elias: Setting up folder structure.
+
+Zachary: Optimizing database structure.
+
+Ayman: First time using trello, may be complicated.
+----------------------------------------------------------------------------------------------
