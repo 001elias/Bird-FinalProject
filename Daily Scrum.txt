@@ -33,3 +33,17 @@ Zachary: Optimizing database structure.
 
 Ayman: First time using trello, may be complicated.
 ----------------------------------------------------------------------------------------------
+Jan 25th 2024
+1) What we did since last meeting:
+Elias: Setup the github and the folder structure
+
+
+2) What we plan on doing today:
+Elias: Creating an RDS instance, creating the DB and connecting to my instance via workbench
+
+
+3) Difficulties we expect to face today:
+Elias: First time using AWS RDS 
+
+
+----------------------------------------------------------------------------------------------
