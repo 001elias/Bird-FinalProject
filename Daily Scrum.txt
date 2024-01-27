@@ -47,3 +47,14 @@ Elias: First time using AWS RDS
 
 
 ----------------------------------------------------------------------------------------------
+Jan 26th 2024
+1) What we did since last meeting:
+Elias: Created the DB and connected it 
+
+
+2) What we plan on doing today:
+Elias: Testing DB functionalities
+
+
+3) Difficulties we expect to face today:
+Elias: Auth problems could occure
