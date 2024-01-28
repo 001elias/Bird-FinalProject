@@ -63,13 +63,14 @@ Zachary: Haven't used bootstrap in a while.
 Jan 27th 2024
 1) What we did since last meeting:
 Elias: Fixed DB problems 
-
+Zachary: Worked on homescreen css
 
 2) What we plan on doing today:
 Elias: Finishing register functionalities
-
+Zachary: Finish homescreen css
 
 3) Difficulties we expect to face today:
 Elias: User registration errors
+Zachary: Making it as visually appealing as possible.
 ----------------------------------------------------------------------------------------------
 
