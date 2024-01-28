@@ -37,28 +37,34 @@ Jan 25th 2024
 1) What we did since last meeting:
 Elias: Setup the github and the folder structure
 Zachary: Finished database diagram, use case diagram and database sql.
+Ayman: Setup Trello
 
 2) What we plan on doing today:
 Elias: Creating an RDS instance, creating the DB and connecting to my instance via workbench
 Zachary: Start making models, design company logo, start working on homepage style
+Ayman: Starting to work on login functionality.
 
 3) Difficulties we expect to face today:
 Elias: First time using AWS RDS 
 Zachary: Making stylish/dynamic webpages takes time.
+Ayman: Using passport.js
 
 ----------------------------------------------------------------------------------------------
 Jan 26th 2024
 1) What we did since last meeting:
 Elias: Created the DB and connected it 
 Zachary: Designed all the models, Designed a bunch of options for company logo, began working on homepage style
+Ayman: Worked on login functionality 
 
 2) What we plan on doing today:
 Elias: Testing DB functionalities
 Zachary: Cpntinue working on homepage style
+Ayman: implementing passport.js
 
 3) Difficulties we expect to face today:
 Elias: Auth problems could occure
 Zachary: Haven't used bootstrap in a while.
+Ayman: implementing passport.js
 ----------------------------------------------------------------------------------------------
 Jan 27th 2024
 1) What we did since last meeting:
