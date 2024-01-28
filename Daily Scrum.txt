@@ -59,3 +59,17 @@ Zachary: Cpntinue working on homepage style
 3) Difficulties we expect to face today:
 Elias: Auth problems could occure
 Zachary: Haven't used bootstrap in a while.
+----------------------------------------------------------------------------------------------
+Jan 27th 2024
+1) What we did since last meeting:
+Elias: Fixed DB problems 
+
+
+2) What we plan on doing today:
+Elias: Finishing register functionalities
+
+
+3) Difficulties we expect to face today:
+Elias: User registration errors
+----------------------------------------------------------------------------------------------
+
