@@ -1,0 +1,109 @@
+.login-container {
+    background-color: rgb(53, 52, 52);
+    border-radius: 15px;
+    padding: 40px;
+    width: 350px;
+    margin: 50px auto;
+    text-align: center;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+h1 {
+    color: #daa520;
+    margin-bottom: 22px;
+    font-size: 30px;
+    margin-top: 20px;
+}
+
+.social-login button {
+    background-color: rgb(26, 25, 25);
+    color: white;
+    padding: 10px;
+    margin: 10px 0;
+    width: 90%;
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.social-login button:hover {
+    background-color: goldenrod;
+    color: black;
+}
+
+.divider {
+    color: gray;
+    margin: 20px 0;
+}
+
+form input[type="text"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    background-color: rgb(26, 25, 25);
+    color: white;
+}
+
+.next-btn {
+    width: 90%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: goldenrod;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.next-btn:hover {
+    background-color: darkgoldenrod;
+}
+
+.login-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+.login-footer p {
+    margin-top: 20px;
+    color: gray;
+}
+
+form input[type=username] {
+    background-color: #1a1919;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 90%;
+}
+
+form input[type=password] {
+    background-color: #1a1919;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 90%;
+}
+
+.login-container {
+    position: relative;
+  }
+  
+  .logo {
+    position: absolute;
+    top: 0;
+    left: 120px;
+    width: 117px; /* Adjust the size as needed */
+    height: auto;
+  }

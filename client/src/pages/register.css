@@ -1,0 +1,98 @@
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: calc(100% - 20px); /* Adjusts width to account for padding */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    background-color: rgb(26, 25, 25);
+    color: white;
+    font-family: 'Alegreya Sans', sans-serif; /* Inherits the font from your body */
+}
+
+/* This will style the 'Sign Up' button to match your theme */
+.next-btn {
+    width: calc(100% - 20px); /* Adjusts width to account for padding */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: goldenrod;
+    color: black;
+    font-family: 'Alegreya Sans', sans-serif; /* Inherits the font from your body */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.next-btn:hover {
+    background-color: darkgoldenrod;
+}
+
+/* Additional styles for the login container and footer to match your theme */
+.login-container {
+    background-color: rgb(53, 52, 52);
+    border-radius: 15px;
+    padding: 40px;
+    width: 350px;
+    margin: 50px auto;
+    text-align: center;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.login-footer a {
+    color: white;
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+.login-footer p {
+    margin-top: 20px;
+    color: gray;
+}
+
+form input[type=email] {
+    background-color: #1a1919;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 90%;
+}
+
+form input[type=password] {
+    background-color: #1a1919;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 90%;
+}
+
+.emailInput {
+    background-color: #1a1919;
+    border: 1px solid gray;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 90%;
+  }
+
+  h2{
+    color: #daa520;
+    font-size: 30px;
+    margin-top: 20px;
+  }
+
+  .logo {
+    position: absolute;
+    top: 0;
+    left: 120px;
+    width: 117px; /* Adjust the size as needed */
+    height: auto;
+  }

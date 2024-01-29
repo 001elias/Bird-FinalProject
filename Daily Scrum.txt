@@ -72,4 +72,12 @@ Elias: Finishing register functionalities
 3) Difficulties we expect to face today:
 Elias: User registration errors
 ----------------------------------------------------------------------------------------------
+Jan 28th 2024
+1) What we did since last meeting:
+Elias: Users can now register
 
+2) What we plan on doing today:
+Elias:  Implement login functionality
+
+3) Difficulties we expect to face today:
+None known at this moment
