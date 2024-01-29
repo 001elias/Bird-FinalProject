@@ -81,4 +81,25 @@ Elias: User registration errors
 Zachary: Making it as visually appealing as possible.
 Ayman: Worked on the Frontend for login and register
 ----------------------------------------------------------------------------------------------
+Jan 28th 2024
+1) What we did since last meeting:
+Elias: Users can now register
 
+2) What we plan on doing today:
+Elias: Implement login functionality
+
+3) Difficulties we expect to face today:
+None known at this moment
+----------------------------------------------------------------------------------------------
+Jan 29th 2024
+1) what we did since last meeting:
+Elias: Users can now login
+Zachary: Finished homescreen css, showed the team to get their thoughts.
+
+2) what we play on doing today:
+Elias: Implement posting tweets
+Zachary: create a post page design, make some more buttons for inputs.
+
+3) difficulties we expect to face today:
+Elias:  Posting tweets will be difficult because of how our database is structured
+Zachary: Coordinating as a team.
