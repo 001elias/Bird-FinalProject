@@ -81,4 +81,15 @@ Elias: User registration errors
 Zachary: Making it as visually appealing as possible.
 Ayman: Worked on the Frontend for login and register
 ----------------------------------------------------------------------------------------------
+Jan 28th 2024
+1) what we did since last meeting:
 
+Zachary: Finished homescreen css, showed the team to get their thoughts.
+
+2) what we play on doing today:
+
+Zachary: create a post page design, make some more buttons for inputs.
+
+3) difficulties we expect to face today:
+
+Zachary: Coordinating as a team.
