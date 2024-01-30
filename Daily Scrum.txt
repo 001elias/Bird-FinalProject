@@ -95,12 +95,16 @@ Jan 29th 2024
 1) what we did since last meeting:
 Elias: Users can now login
 Zachary: Finished homescreen css, showed the team to get their thoughts.
+Ayman: Did the frontend for the login and register.
 
 2) what we play on doing today:
 Elias: Implement posting tweets
 Zachary: create a post page design, make some more buttons for inputs.
+Ayman: Did the frontend for the profile page.
 
 3) difficulties we expect to face today:
 Elias:  Posting tweets will be difficult because of how our database is structured
 Zachary: Coordinating as a team.
+Ayman: Some Css diffuclties.
 ----------------------------------------------------------------------------------------------
+
