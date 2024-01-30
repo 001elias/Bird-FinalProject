@@ -103,3 +103,4 @@ Zachary: create a post page design, make some more buttons for inputs.
 3) difficulties we expect to face today:
 Elias:  Posting tweets will be difficult because of how our database is structured
 Zachary: Coordinating as a team.
+----------------------------------------------------------------------------------------------

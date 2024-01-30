@@ -1,8 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext"; // Adjust the path as necessary
+import { AuthContext } from "../context/AuthContext";
 import "./login.css";
 import Logo from "../img/Harelogofinal202339.png";
+
 function clearAllCookies() {
   document.cookie.split(";").forEach(function (c) {
     document.cookie =
@@ -23,12 +24,6 @@ function Login() {
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  /*   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  }; */
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("/login", {
@@ -39,8 +34,9 @@ function Login() {
     });
 
     if (response.ok) {
-      setIsLoggedIn(true); // Update the login state
-      navigate("/home"); // Redirect to home or another route
+      setIsLoggedIn(true); // Update the context's state
+      localStorage.setItem("isLoggedIn", "true"); // Optionally update localStorage
+      navigate("/home"); // Redirect to the home page
     } else {
       // Handle login failure
       console.log("Login failed");

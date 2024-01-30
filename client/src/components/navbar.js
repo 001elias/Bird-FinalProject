@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import homeicon from "../img/Home.(transparent).png";
 import searchicon from "../img/Search(transparent).png";
 import notificationsicon from "../img/Notifications(checked)(transparent).png";
@@ -6,18 +7,36 @@ import messagesicon from "../img/Messages(read)(transparent).png";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 function Navbar() {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
-  if (!isLoggedIn) {
-    return null;
-  }
-  const handleLogout = () => {
-    // Perform logout logic (e.g., clearing session, making a logout API call)
-    setIsLoggedIn(false);
+  const { setIsLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      // Make a request to the server to end the session
+      const response = await fetch("/logout", {
+        method: "GET", // or POST if your server expects a POST request
+        credentials: "include", // Required if your server uses cookies
+      });
+
+      if (response.ok) {
+        // Clear client-side state
+        setIsLoggedIn(false);
+        localStorage.removeItem("isLoggedIn");
+
+        // Redirect to login page
+        navigate("/login");
+      } else {
+        // Handle errors, e.g., display a message
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("There was an error during logout:", error);
+    }
   };
   return (
     <div className="col-md-2">
       <div className="list-group">
-        <a href="#" className="list-group-item list-group-item-action">
+        <a href="/Home" className="list-group-item list-group-item-action">
           <img src={homeicon} alt="Home" className="sidebar-icon" />
           Home
         </a>
@@ -37,15 +56,13 @@ function Navbar() {
           <img src={messagesicon} alt="Messages" className="sidebar-icon" />
           Messages
         </a>
-        {isLoggedIn && (
-          <a
-            href="#"
-            className="list-group-item list-group-item-action"
-            onClick={handleLogout}
-          >
-            Logout
-          </a>
-        )}
+        <a
+          href="#"
+          className="list-group-item list-group-item-action"
+          onClick={handleLogout}
+        >
+          Logout
+        </a>
       </div>
     </div>
   );
