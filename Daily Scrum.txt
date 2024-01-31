@@ -107,4 +107,10 @@ Elias:  Posting tweets will be difficult because of how our database is structur
 Zachary: Coordinating as a team.
 Ayman: Some Css diffuclties.
 ----------------------------------------------------------------------------------------------
-
+Jan 30th 2024
+1) what we did since last meeting:
+Elias: Started working on posting tweets
+2) what we plan on doing today:
+Elias: Continue with implementing posting tweets
+3) difficulties we expect to face today:
+Elias: The backend needs to know which user posted the tweet
