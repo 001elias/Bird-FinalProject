@@ -111,14 +111,16 @@ Jan 31st 2024
 1) what we did since last meeting:
 
 Zachary: finished the create a tweet page
+Ayman: Created the frontendprofilep age
 
 
 2) what we plan on doing today
 
 Zachary: finishing as much of the front-end as possible
+Ayman: Start working on the powerpoint
 
 
 3) difficulties we expect to face today
 
 Zachary: Time constraints
-
+Ayman: Gathering information for the powerpoint
