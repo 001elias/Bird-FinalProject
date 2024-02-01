@@ -40,6 +40,9 @@ function Navbar() {
           <img src={homeicon} alt="Home" className="sidebar-icon" />
           Home
         </a>
+        <a href="/tweet" className="list-group-item list-group-item-action">
+          Tweet
+        </a>
         <a href="#" className="list-group-item list-group-item-action">
           <img src={searchicon} alt="Search" className="sidebar-icon" />
           Search
@@ -56,6 +59,7 @@ function Navbar() {
           <img src={messagesicon} alt="Messages" className="sidebar-icon" />
           Messages
         </a>
+
         <a
           href="#"
           className="list-group-item list-group-item-action"

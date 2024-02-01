@@ -21,6 +21,7 @@ function Login() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -40,6 +41,7 @@ function Login() {
     } else {
       // Handle login failure
       console.log("Login failed");
+      setErrorMessage("Login failed");
     }
   };
 
@@ -48,6 +50,7 @@ function Login() {
       <img src={Logo} alt="Hare Logo" className="logo" />
       <h1>Sign in to Hare</h1>
       <div className="divider">Use your Username and Password</div>
+      {errorMessage}
       <form onSubmit={handleSubmit}>
         <input
           type="text"

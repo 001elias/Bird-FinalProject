@@ -10,7 +10,28 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const cors = require("cors");
+const AWS = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+let loggedUserID;
 require("dotenv").config();
+
+AWS.config.update({
+  //accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: "us-east-2",
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: "harebucket",
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString() + "-" + file.originalname);
+    },
+  }),
+});
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,19 +44,12 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET, // Replace with a real secret key
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: false, // Set to true if you're using https
-      sameSite: "strict", // Or 'none' if dealing with different domains
-    },
-  })
-);
-
-app.use(
-  cors({
-    origin: "http://localhost:3000", // Your frontend domain
-    credentials: true,
+    saveUninitialized: true,
+    // cookie: {
+    //   httpOnly: true,
+    //   secure: false, // Set to true if you're using https
+    //   sameSite: "strict", // Or 'none' if dealing with different domains
+    //},
   })
 );
 
@@ -43,6 +57,41 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Configure local strategy for Passport
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    const connection = mysql.createConnection(dbConfig);
+
+    connection.query(
+      "SELECT * FROM Users WHERE Username = ?",
+      [username],
+      (err, users) => {
+        connection.end();
+
+        if (err) {
+          return done(err);
+        }
+
+        if (users.length === 0) {
+          return done(null, false, { message: "Incorrect username." });
+        }
+
+        const user = users[0];
+
+        bcrypt.compare(password, user.Password, (err, isMatch) => {
+          console.log(password, user.Password);
+          if (err) {
+            return done(err);
+          }
+          if (!isMatch) {
+            return done(null, false, { message: "Incorrect password." });
+          }
+          return done(null, user);
+        });
+      }
+    );
+  })
+);
 // Serialize and deserialize user
 passport.serializeUser((user, done) => {
   done(null, user.UserID);
@@ -64,84 +113,157 @@ passport.deserializeUser((id, done) => {
   );
 });
 
-// Configure local strategy for Passport
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "username", // Change to username
-    },
-    (username, password, done) => {
-      const connection = mysql.createConnection(dbConfig);
-      connection.query(
-        "SELECT * FROM Users WHERE Username = ?",
-        [username],
-        (err, users) => {
-          connection.end();
-          if (err) {
-            return done(err);
-          }
-          if (users.length === 0) {
-            return done(null, false, { message: "Incorrect username." });
-          }
-          const user = users[0];
-          bcrypt.compare(password, user.Password, (err, isMatch) => {
-            if (err) {
-              return done(err);
-            }
-            if (!isMatch) {
-              return done(null, false, { message: "Incorrect password." });
-            }
-            return done(null, user);
-          });
-        }
-      );
-    }
-  )
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Your frontend domain
+    credentials: true,
+  })
 );
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-  // Replace with your database access
-  const connection = mysql.createConnection(dbConfig);
-  connection.query(
-    "SELECT * FROM Users WHERE Username = ?",
-    [username],
-    (err, users) => {
-      connection.end();
-      if (err || users.length === 0) {
-        return res.status(401).send("Invalid credentials");
-      }
-
-      const user = users[0];
-      bcrypt.compare(password, user.Password, (err, result) => {
-        if (err || !result) {
-          return res.status(401).send("Invalid credentials");
-        }
-        // If credentials are valid
-        res.status(200).send({ message: "Login successful", user });
-      });
-    }
-  );
-});
 
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
+      // Handle error
       return next(err);
     }
     if (!user) {
-      // If authentication failed, redirect to /login with an error message
-      return res.redirect("/login");
+      // Authentication failed,
+      //return res.redirect("/login");
+      return res.status(500).send({ error: "login failed" });
     }
-
+    // Manually establish the session
     req.logIn(user, (err) => {
       if (err) {
         return next(err);
       }
-      // If authentication is successful, redirect to /home
-      return res.redirect("/home");
+      // Successful authentication, redirect to the home page or dashboard
+      //return res.redirect("/home");
+      return res.status(200).json({ message: "Login successful" });
     });
   })(req, res, next);
 });
+
+// app.post(
+//   "/login",
+//   passport.authenticate("local", {
+//     successRedirect: "/home",
+//     failureRedirect: "/login",
+//   })
+// );
+
+app.get("/protected", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.send("Access granted to protected page");
+  } else {
+    res.send("Access denied");
+  }
+});
+
+app.get("/get-tweets", async (req, res) => {
+  const connection = mysql.createConnection(dbConfig);
+
+  connection.connect((err) => {
+    if (err) {
+      console.error("Error connecting to the database:", err);
+      return res.status(500).send("Error connecting to the database");
+    }
+
+    const query = "SELECT * FROM Tweets"; // Assuming you have a table 'tweets'
+
+    connection.query(query, (error, results) => {
+      connection.end();
+
+      if (error) {
+        console.error("Error fetching tweets:", error);
+        return res.status(500).send("Error fetching tweets");
+      }
+
+      res.status(200).json(results);
+    });
+  });
+});
+
+app.post("/upload", upload.single("image"), (req, res) => {
+  res.send({ imageUrl: req.file.location });
+});
+
+async function saveTweetToDatabase(userID, text, imageUrl) {
+  const db = mysql.createConnection(dbConfig);
+  return new Promise((resolve, reject) => {
+    const query =
+      "INSERT INTO Tweets (UserID, Content, imageURL) VALUES (?, ?, ?)";
+    db.query(query, [userID, text, imageUrl], (err, result) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(result);
+    });
+  });
+}
+
+app.post("/post-tweet", async (req, res) => {
+  const { tweet, imageUrl } = req.body;
+  console.log("req user", req.user);
+  // Extract text and imageUrl from request body
+  try {
+    // Assuming you have a database function to save a tweet
+    await saveTweetToDatabase(req.user.UserID, tweet, imageUrl);
+    res.status(201).send({ message: "Tweet posted successfully" });
+  } catch (error) {
+    console.error("Error posting tweet:", error);
+    res.status(500).send({ error: "Error posting tweet" });
+  }
+});
+
+// app.post("/login", (req, res) => {
+//   const { username, password } = req.body;
+//   // Replace with your database access
+//   const connection = mysql.createConnection(dbConfig);
+//   connection.query(
+//     "SELECT * FROM Users WHERE Username = ?",
+//     [username],
+//     (err, users) => {
+//       connection.end();
+//       if (err || users.length === 0) {
+//         return res.status(401).send("Invalidx credentials");
+//       }
+
+//       const user = users[0];
+
+//       bcrypt.compare(password, user.Password, (err, result) => {
+//         if (err || !result) {
+//           return res.status(401).send("Invalid password");
+//         }
+//         // If credentials are valid
+//         loggedUserID = user.UserID;
+
+//         res.status(200).send({ message: "Login successful", user });
+//       });
+//     }
+//   );
+// });
+
+// app.post("/login", (req, res, next) => {
+//   passport.authenticate("local", (err, user, info) => {
+
+//     // if (err) {
+//     //   return next(err);
+//     // }
+//     // if (!user) {
+//     //   // If authentication failed, redirect to /login with an error message
+//     //   return res.redirect("/login");
+//     // }
+
+//     // req.logIn(user, (err) => {
+//     //   if (err) {
+//     //     return next(err);
+//     //   }
+//     //   // If authentication is successful, redirect to /home
+//     //   return res.redirect("/home");
+//     // });
+//   })(req, res, next);
+// });
 
 // Check if user is logged in
 app.get("/check-auth", (req, res) => {
@@ -151,34 +273,22 @@ app.get("/check-auth", (req, res) => {
   res.status(401).json({ isAuthenticated: false });
 });
 
-async function checkAuth() {
-  const token = process.env.SESSION_SECRET;
-  const response = await fetch("http://localhost:3000/check-auth", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-}
-checkAuth();
-
-fetch("http://localhost:3000/check-auth", {
-  method: "GET",
-  credentials: "include", // Important for sending cookies
-});
-
 // Logout
 app.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/login");
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    // Redirect or perform other logic after successfully logging out
+    res.redirect("/login");
+  });
 });
 
-fetch("http://localhost:3000/home", {
-  method: "GET", // or POST, PUT, etc.
-  credentials: "include", // This is important for sending and receiving cookies
-  // ... other settings
-});
+// fetch("http://localhost:3000/home", {
+//   method: "GET", // or POST, PUT, etc.
+//   credentials: "include", // This is important for sending and receiving cookies
+//   // ... other settings
+// });
 
 // Middleware to serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, "../client/build")));

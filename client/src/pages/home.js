@@ -1,6 +1,27 @@
-import React from "react"; // Make sure the path to your CSS file is correct
+import React, { useState, useEffect } from "react"; // Make sure the path to your CSS file is correct
 import Logo from "../img/Harelogofinal202339.png";
+import Card from "../components/card";
 function Home() {
+  const [tweets, setTweets] = useState([]);
+  useEffect(() => {
+    async function fetchTweets() {
+      try {
+        const response = await fetch("/get-tweets"); // Adjust the endpoint as necessary
+        if (response.ok) {
+          const data = await response.json();
+          setTweets(data);
+        } else {
+          // Handle HTTP errors
+          console.error("Failed to fetch tweets:", response.statusText);
+        }
+      } catch (error) {
+        // Handle network errors
+        console.error("Network error when fetching tweets:", error);
+      }
+    }
+
+    fetchTweets();
+  }, []);
   return (
     <div className="container-fluid mt-3">
       {/* Header */}
@@ -57,61 +78,17 @@ function Home() {
           }}
         >
           {/* Cards */}
-          <div className="card">
-            <img
-              src="OIG2 (1).jpg"
-              alt="Profile Picture"
-              className="card-profilepic"
-            />
-            <div className="card-body">
-              <h5 className="card-title">chilldude22</h5>
-              <p className="card-text">
-                Accidentally put my phone in the fridge, and now it's on a cold
-                call. Guess it wanted to chill with the veggies.
-              </p>
-              <img
-                src="tweetimage1.jpg"
-                alt="Content Image"
-                className="img-fluid"
+          <div>
+            {/* Loop through tweets and create a Card for each */}
+            {tweets.map((tweet, index) => (
+              <Card
+                key={index}
+                username={tweet.UserID}
+                profilePic={tweet.ProfilePic}
+                text={tweet.Content}
+                tweetImage={tweet.TweetImage}
               />
-            </div>
-          </div>
-
-          <div className="card">
-            <img
-              src="OIG4 (2).jpg"
-              alt="Profile Picture"
-              className="card-profilepic"
-            />
-            <div className="card-body">
-              <h5 className="card-title">TinyTim420</h5>
-              <p className="card-text">
-                Created a fitness routine for couch potatoes. It involves
-                lifting snacks to your mouth and perfecting the art of Netflix
-                marathon sprints.
-              </p>
-            </div>
-          </div>
-
-          <div className="card">
-            <img
-              src="OIG4.jpg"
-              alt="Profile Picture"
-              className="card-profilepic"
-            />
-            <div className="card-body">
-              <h5 className="card-title">buddhabuddha</h5>
-              <p className="card-text">
-                Trying to impress my crush by playing Overwatch. Accidentally
-                triggered my ultimate in the spawn room. Talk about the
-                "ultimate cringe"
-              </p>
-              <img
-                src="tweetimage2.jpg"
-                alt="Content Image"
-                className="img-fluid"
-              />
-            </div>
+            ))}
           </div>
         </div>
 
