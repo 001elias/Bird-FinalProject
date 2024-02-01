@@ -97,7 +97,7 @@ Elias: Users can now login
 Zachary: Finished homescreen css, showed the team to get their thoughts.
 Ayman: Did the frontend for the login and register.
 
-2) what we play on doing today:
+2) what we plan on doing today:
 Elias: Implement posting tweets
 Zachary: create a post page design, make some more buttons for inputs.
 Ayman: Did the frontend for the profile page.
@@ -114,3 +114,21 @@ Elias: Started working on posting tweets
 Elias: Continue with implementing posting tweets
 3) difficulties we expect to face today:
 Elias: The backend needs to know which user posted the tweet
+----------------------------------------------------------------------------------------------
+Jan 31st 2024
+1) what we did since last meeting:
+Elias: Finished the posting tweet functionality
+Zachary: finished the create a tweet page
+Ayman: Created the frontendprofilep age
+
+
+2) what we plan on doing today
+Elias: Get started on followers functionalities
+Zachary: finishing as much of the front-end as possible
+Ayman: Start working on the powerpoint
+
+
+3) difficulties we expect to face today
+Elias: Reasearching how to handle following/follower system in our database
+Zachary: Time constraints
+Ayman: Gathering information for the powerpoint
