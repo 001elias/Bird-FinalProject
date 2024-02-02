@@ -133,14 +133,15 @@ Elias: Reasearching how to handle following/follower system in our database
 Zachary: Time constraints
 Ayman: Gathering information for the powerpoint
 ----------------------------------------------------------------------------------------------
-Jan 1st 2024
+Feb 1st 2024
 1) what we did since last meeting:
 Elias: User can now post tweets with images, fixed  bugs in image upload and added error handling
-
+Zachary: Created profile page, worked on style/html for create a tweet.
 
 2) what we plan on doing today
 Elias: Focus on the followers
-
+Zachary: Make some more icons, work on the power point, create a sql query to add some data into the database
 
 3) difficulties we expect to face today
-Elias: Dealing with query errors 
+Elias: Dealing with query errors
+Zachary: Haven't worked with powerpoint in a while 
