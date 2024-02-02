@@ -2,6 +2,8 @@
 *.jar
 *.zip
 
+.env 
+
 /node_modules
 /.pnp
 .pnp.js
