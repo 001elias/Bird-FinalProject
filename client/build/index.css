@@ -158,18 +158,15 @@ body {
     position: fixed;
     top: 100px;
   }
-  
-  .row {
-    margin-left: 200px;
-  }
+   
 
   .card{
-    width: 1200px;
-    left: 30px;
+    min-width: 400px;
+    max-width: 700px;
   }
 
-  .input-group{
+  /* .input-group{
     right: 215px;
     width: 1211.98px;
     height: 38px;
-  }
+  } */
