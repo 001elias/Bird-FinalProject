@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from "react"; // Make sure the path to your CSS file is correct
-import Logo from "../img/Harelogofinal202339.png";
-import Card from "../components/card";
+import React, { useState, useEffect, useContext } from "react"; // Make sure the path to your CSS file is correct
+
+import Card from "../../components/card";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 function Home() {
   const [tweets, setTweets] = useState([]);
+  const { isLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  if (!isLoggedIn) navigate("/login");
+
   useEffect(() => {
     async function fetchTweets() {
       try {
@@ -22,61 +30,12 @@ function Home() {
 
     fetchTweets();
   }, []);
+
   return (
-    <div className="container-fluid mt-3">
-      {/* Header */}
-      <div className="row header" style={{ zIndex: 1000 }}>
-        {/* Left-aligned column */}
-        <div className="col-md-2 fixed-top text-left logo-container">
-          <img
-            src={Logo}
-            alt="Left Image"
-            className="img-fluid"
-            style={{ maxHeight: "100px" }}
-          />
-        </div>
-
-        {/* Centered column */}
-        <div className="col-md-8 offset-md-2 text-center">
-          <div className="input-group rounded-search-container">
-            <input
-              type="text"
-              className="form-control rounded-search search-input"
-              placeholder="Search"
-            />
-          </div>
-        </div>
-
-        {/* Right-aligned column */}
-        <div
-          className="col-md-2 fixed-top ml-auto text-right"
-          style={{ paddingRight: "30px", paddingTop: "20px" }}
-        >
-          <div className="d-flex align-items-center">
-            <p className="text-white mb-0 flex-grow-1">Jen.Eric</p>
-            <img
-              src="OIG2.jpg"
-              alt="User Picture"
-              className="img-fluid rounded-circle mr-auto pl-2"
-              style={{ height: "70px" }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Links */}
+    <div className="container-fluid mt-3" style={{ paddingLeft: "120px" }}>
       <div className="row mt-3">
-        {/* navbar */}
-        {/* Center column */}
-        <div
-          className="col-md-8"
-          style={{
-            position: "sticky",
-            top: "100px",
-            paddingLeft: "50px",
-            paddingRight: "0px",
-          }}
-        >
+        <div className="col-md-3"></div>
+        <div className="col-md-6">
           {/* Cards */}
           <div>
             {/* Loop through tweets and create a Card for each */}
@@ -86,7 +45,7 @@ function Home() {
                 username={tweet.UserID}
                 profilePic={tweet.ProfilePic}
                 text={tweet.Content}
-                tweetImage={tweet.TweetImage}
+                tweetImage={tweet.ImageURL}
               />
             ))}
           </div>

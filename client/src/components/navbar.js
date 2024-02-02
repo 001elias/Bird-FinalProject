@@ -1,11 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import homeicon from "../img/Home.(transparent).png";
 import searchicon from "../img/Search(transparent).png";
 import notificationsicon from "../img/Notifications(checked)(transparent).png";
 import messagesicon from "../img/Messages(read)(transparent).png";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
+
 function Navbar() {
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -36,29 +37,29 @@ function Navbar() {
   return (
     <div className="col-md-2">
       <div className="list-group">
-        <a href="/Home" className="list-group-item list-group-item-action">
+        <Link to="/Home" className="list-group-item list-group-item-action">
           <img src={homeicon} alt="Home" className="sidebar-icon" />
           Home
-        </a>
-        <a href="/tweet" className="list-group-item list-group-item-action">
+        </Link>
+        <Link to="/tweet" className="list-group-item list-group-item-action">
           Tweet
-        </a>
-        <a href="#" className="list-group-item list-group-item-action">
+        </Link>
+        <Link to="#" className="list-group-item list-group-item-action">
           <img src={searchicon} alt="Search" className="sidebar-icon" />
           Search
-        </a>
-        <a href="#" className="list-group-item list-group-item-action">
+        </Link>
+        <Link to="#" className="list-group-item list-group-item-action">
           <img
             src={notificationsicon}
             alt="Notifications"
             className="sidebar-icon"
           />
           Notifications
-        </a>
-        <a href="#" className="list-group-item list-group-item-action">
+        </Link>
+        <Link to="#" className="list-group-item list-group-item-action">
           <img src={messagesicon} alt="Messages" className="sidebar-icon" />
           Messages
-        </a>
+        </Link>
 
         <a
           href="#"

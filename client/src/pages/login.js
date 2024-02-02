@@ -22,7 +22,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setIsLoggedIn, setLoggedUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -35,6 +35,8 @@ function Login() {
     });
 
     if (response.ok) {
+      const data = await response.json();
+      setLoggedUser(data.user);
       setIsLoggedIn(true); // Update the context's state
       localStorage.setItem("isLoggedIn", "true"); // Optionally update localStorage
       navigate("/home"); // Redirect to the home page

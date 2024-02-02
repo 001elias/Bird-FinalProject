@@ -27,6 +27,8 @@ const upload = multer({
   storage: multerS3({
     s3: new AWS.S3(),
     bucket: "harebucket",
+    acl: "public-read",
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
       cb(null, Date.now().toString() + "-" + file.originalname);
     },
@@ -138,18 +140,10 @@ app.post("/login", (req, res, next) => {
       }
       // Successful authentication, redirect to the home page or dashboard
       //return res.redirect("/home");
-      return res.status(200).json({ message: "Login successful" });
+      return res.status(200).json({ message: "Login successful", user: user });
     });
   })(req, res, next);
 });
-
-// app.post(
-//   "/login",
-//   passport.authenticate("local", {
-//     successRedirect: "/home",
-//     failureRedirect: "/login",
-//   })
-// );
 
 app.get("/protected", (req, res) => {
   if (req.isAuthenticated()) {
@@ -184,7 +178,14 @@ app.get("/get-tweets", async (req, res) => {
 });
 
 app.post("/upload", upload.single("image"), (req, res) => {
-  res.send({ imageUrl: req.file.location });
+  if (req.file) {
+    res.json({
+      message: "Successfully uploaded",
+      imageUrl: req.file.location, // The URL of the uploaded file
+    });
+  } else {
+    res.status(400).send("File upload failed.");
+  }
 });
 
 async function saveTweetToDatabase(userID, text, imageUrl) {
@@ -216,63 +217,6 @@ app.post("/post-tweet", async (req, res) => {
   }
 });
 
-// app.post("/login", (req, res) => {
-//   const { username, password } = req.body;
-//   // Replace with your database access
-//   const connection = mysql.createConnection(dbConfig);
-//   connection.query(
-//     "SELECT * FROM Users WHERE Username = ?",
-//     [username],
-//     (err, users) => {
-//       connection.end();
-//       if (err || users.length === 0) {
-//         return res.status(401).send("Invalidx credentials");
-//       }
-
-//       const user = users[0];
-
-//       bcrypt.compare(password, user.Password, (err, result) => {
-//         if (err || !result) {
-//           return res.status(401).send("Invalid password");
-//         }
-//         // If credentials are valid
-//         loggedUserID = user.UserID;
-
-//         res.status(200).send({ message: "Login successful", user });
-//       });
-//     }
-//   );
-// });
-
-// app.post("/login", (req, res, next) => {
-//   passport.authenticate("local", (err, user, info) => {
-
-//     // if (err) {
-//     //   return next(err);
-//     // }
-//     // if (!user) {
-//     //   // If authentication failed, redirect to /login with an error message
-//     //   return res.redirect("/login");
-//     // }
-
-//     // req.logIn(user, (err) => {
-//     //   if (err) {
-//     //     return next(err);
-//     //   }
-//     //   // If authentication is successful, redirect to /home
-//     //   return res.redirect("/home");
-//     // });
-//   })(req, res, next);
-// });
-
-// Check if user is logged in
-app.get("/check-auth", (req, res) => {
-  if (req.isAuthenticated()) {
-    return res.status(200).json({ isAuthenticated: true, user: req.user });
-  }
-  res.status(401).json({ isAuthenticated: false });
-});
-
 // Logout
 app.get("/logout", (req, res) => {
   req.logout(function (err) {
@@ -283,12 +227,6 @@ app.get("/logout", (req, res) => {
     res.redirect("/login");
   });
 });
-
-// fetch("http://localhost:3000/home", {
-//   method: "GET", // or POST, PUT, etc.
-//   credentials: "include", // This is important for sending and receiving cookies
-//   // ... other settings
-// });
 
 // Middleware to serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, "../client/build")));
