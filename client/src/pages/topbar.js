@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import Logo from "../img/Harelogofinal202339.png";
+import { useNavigate, Link } from "react-router-dom";
 
-function TopBar() {
+import Logo from "../img/Harelogofinal202339.png";
+import DefaultUserAvatar from "../img/DefaultUser.jpg";
+
+function TopBar({ userInfo }) {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+
   function renderLogo() {
     return (
       <div className="col-md-2 fixed-top text-left logo-container">
@@ -18,12 +24,24 @@ function TopBar() {
   function renderSearch() {
     return (
       <div className="col-md-8 offset-md-2 text-center">
-        <div className="input-group rounded-search-container">
+        <div class="input-group mb-3">
           <input
             type="text"
-            className="form-control rounded-search search-input"
-            placeholder="Search"
+            className="form-control"
+            placeholder="Search users or Posts"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            id="button-addon2"
+            onClick={handleSearch}
+            disabled={searchTerm == ""}
+          >
+            Search
+          </button>
         </div>
       </div>
     );
@@ -33,20 +51,39 @@ function TopBar() {
     return (
       <div
         className="col-md-2 fixed-top ml-auto text-right"
-        style={{ paddingRight: "30px", paddingTop: "20px" }}
+        style={{ paddingRight: "30px" }}
       >
         <div className="d-flex align-items-center">
-          <p className="text-white mb-0 flex-grow-1">Jen.Eric</p>
-          <img
-            src="OIG2.jpg"
-            alt="User Picture"
-            className="img-fluid rounded-circle mr-auto pl-2"
-            style={{ height: "70px" }}
-          />
+          <p className="text-white mb-0 flex-grow-1">{userInfo.Username}</p>
+          <Link to={`/profile/${userInfo.Username}`} className="btn btn-link">
+            <img
+              src={userInfo.AvatarURL || DefaultUserAvatar}
+              alt="User Picture"
+              className="profile-picture-small"
+            />
+          </Link>
         </div>
       </div>
     );
   }
+
+  function handleProfileClick() {
+    // Redirect to user profile
+    navigate("./profile", { state: { userName: userInfo.Username } });
+  }
+
+  function handleSearch(e) {
+    e.preventDefault();
+    // Redirect to search page
+    navigate("./search", { state: { searchTerm: searchTerm } });
+  }
+
+  // Function to handle Enter key press
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      navigate("./search", { state: { searchTerm: searchTerm } });
+    }
+  };
 
   return (
     <div className="row header" style={{ zIndex: 1000 }}>

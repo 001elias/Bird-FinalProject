@@ -37,7 +37,7 @@ h1 {
     margin: 20px 0;
 }
 
-form input[type="text"] {
+/* form input[type="text"] {
     width: 90%;
     padding: 10px;
     margin-bottom: 10px;
@@ -45,7 +45,7 @@ form input[type="text"] {
     border: 1px solid gray;
     background-color: rgb(26, 25, 25);
     color: white;
-}
+} */
 
 .next-btn {
     width: 90%;
@@ -76,17 +76,7 @@ form input[type="text"] {
     color: gray;
 }
 
-form input[type=username] {
-    background-color: #1a1919;
-    border: 1px solid gray;
-    border-radius: 5px;
-    color: #fff;
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 90%;
-}
-
-form input[type=password] {
+.login-form-input {
     background-color: #1a1919;
     border: 1px solid gray;
     border-radius: 5px;

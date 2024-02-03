@@ -39,11 +39,16 @@ body {
   }
   
   div.card {
-    border: 1px solid white;
+    border: 1px solid #495057;
     padding: 10px;
     margin: 20px;
   }
   
+  div.user-card {    
+    padding: 10px;
+    margin: 20px;
+  }
+
   .card img {
     max-width: 100%;
   }
@@ -110,6 +115,12 @@ body {
     margin: 10px !important;
   }
   
+  .profile-picture-small {
+    max-width: 50px !important;
+    border-radius: 50%;      
+    margin: 10px !important;
+  }
+
   .card-title {
     margin-left: 40px;
     margin-top: -5px;
@@ -117,6 +128,10 @@ body {
   
   .card{
     background-color: rgb(53, 52, 52);
+  }
+
+  .user-card{
+    background-color: #495057;
   }
   
   .card-text {
@@ -165,8 +180,16 @@ body {
     max-width: 700px;
   }
 
+ .user-card{
+    min-width: 400px;
+    max-width: 500px;
+  }
   /* .input-group{
     right: 215px;
     width: 1211.98px;
     height: 38px;
   } */
+
+  .centered-content {
+    padding-left: 200px;
+  }

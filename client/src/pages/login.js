@@ -57,11 +57,12 @@ function Login() {
         <input
           type="text"
           placeholder="Username"
+          className="login-form-input"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
-          className="passwordfield"
+          className="login-form-input"
           type="password"
           placeholder="Password"
           value={password}

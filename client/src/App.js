@@ -7,6 +7,8 @@ import Home from "./pages/Home/home";
 import Navbar from "./components/navbar";
 import TweetForm from "./pages/tweetForm";
 import TopBar from "./pages/topbar";
+import Profile from "./pages/profile";
+import Search from "./pages/search";
 
 function App() {
   return (
@@ -19,18 +21,18 @@ function App() {
 }
 
 function Main() {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, loggedUser } = useContext(AuthContext);
 
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-  }, [setIsLoggedIn]);
+  // useEffect(() => {
+  //   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+  //   setIsLoggedIn(loggedIn);
+  // }, [setIsLoggedIn]);
 
   return (
     <>
       {isLoggedIn && (
         <>
-          <TopBar />
+          <TopBar userInfo={loggedUser} />
           <Navbar />
         </>
       )}
@@ -40,6 +42,11 @@ function Main() {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={isLoggedIn ? <Home /> : <Login />} />
         <Route path="/tweet" element={isLoggedIn ? <TweetForm /> : <Login />} />
+        <Route
+          path="/profile/:username"
+          element={isLoggedIn ? <Profile /> : <Login />}
+        />
+        <Route path="/search" element={isLoggedIn ? <Search /> : <Login />} />
         {/* ... other routes */}
       </Routes>
     </>

@@ -42,8 +42,9 @@ function Home() {
             {tweets.map((tweet, index) => (
               <Card
                 key={index}
-                username={tweet.UserID}
-                profilePic={tweet.ProfilePic}
+                userName={tweet.Username}
+                userId={tweet.UserID}
+                profilePic={tweet.AvatarURL}
                 text={tweet.Content}
                 tweetImage={tweet.ImageURL}
               />

@@ -6,6 +6,8 @@ import notificationsicon from "../img/Notifications(checked)(transparent).png";
 import messagesicon from "../img/Messages(read)(transparent).png";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
+import posticon from "../img/Post(transparent).png";
+import logouticon from "../img/Logout(transparent).png";
 
 function Navbar() {
   const { setIsLoggedIn } = useContext(AuthContext);
@@ -42,11 +44,8 @@ function Navbar() {
           Home
         </Link>
         <Link to="/tweet" className="list-group-item list-group-item-action">
+          <img src={posticon} alt="Post" className="sidebar-icon" />
           Tweet
-        </Link>
-        <Link to="#" className="list-group-item list-group-item-action">
-          <img src={searchicon} alt="Search" className="sidebar-icon" />
-          Search
         </Link>
         <Link to="#" className="list-group-item list-group-item-action">
           <img
@@ -66,6 +65,7 @@ function Navbar() {
           className="list-group-item list-group-item-action"
           onClick={handleLogout}
         >
+          <img src={logouticon} alt="Logout" className="sidebar-icon" />
           Logout
         </a>
       </div>

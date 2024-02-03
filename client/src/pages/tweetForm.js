@@ -1,17 +1,13 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import DefaultUserAvatar from "../img/DefaultUser.jpg";
 
 function TweetForm() {
   const [tweet, setTweet] = useState("");
   const [image, setImage] = useState(null);
-  const { isLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, loggedUser } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  if (!isLoggedIn) {
-    console.log(isLoggedIn);
-    navigate("/login");
-  }
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -46,6 +42,7 @@ function TweetForm() {
       // Optionally reset the form
       setTweet("");
       setImage(null);
+      navigate("/home");
     } else {
       // Handle tweet post error
       console.error("Failed to post tweet");
@@ -57,10 +54,10 @@ function TweetForm() {
   }
 
   return (
-    <div class="container-fluid">
+    <div class="container-fluid centered-content">
       <div class="row">
-        <div className="col-md-1"></div>
-        <div className="col-md-8">
+        <div className="col-md-3"></div>
+        <div className="col-md-6">
           <div className="col-md-12">
             <p className="text-center">
               <h1>What do you have to say?</h1>
@@ -70,9 +67,9 @@ function TweetForm() {
             <div className="container-textbox">
               <div className="Tweet-message text-box">
                 <img
-                  src="OIG2.jpg"
+                  src={loggedUser.AvatarURL || DefaultUserAvatar}
                   alt="Profile Picture"
-                  className="profile-picture-textbox"
+                  className="profile-picture-small"
                 />
                 <form onSubmit={handleSubmit}>
                   <textarea
@@ -85,7 +82,7 @@ function TweetForm() {
                   ></textarea>
                   <div className="counter-container d-flex flex-column">
                     <div>
-                      <label className="me-2">Attach picture</label>
+                      <label className="mr-3">Attach picture</label>
                       <input type="file" onChange={handleImageChange} />
                       <button
                         className="btn btn-info float-right"

@@ -13,11 +13,17 @@ const cors = require("cors");
 const AWS = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
-let loggedUserID;
+
+const {
+  getTweets,
+  searchTweets,
+  searchUsers,
+  saveTweetToDatabase,
+} = require("./queries");
+
 require("dotenv").config();
 
 AWS.config.update({
-  //accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: "us-east-2",
@@ -47,11 +53,6 @@ app.use(
     secret: process.env.SESSION_SECRET, // Replace with a real secret key
     resave: false,
     saveUninitialized: true,
-    // cookie: {
-    //   httpOnly: true,
-    //   secure: false, // Set to true if you're using https
-    //   sameSite: "strict", // Or 'none' if dealing with different domains
-    //},
   })
 );
 
@@ -81,7 +82,6 @@ passport.use(
         const user = users[0];
 
         bcrypt.compare(password, user.Password, (err, isMatch) => {
-          console.log(password, user.Password);
           if (err) {
             return done(err);
           }
@@ -130,7 +130,6 @@ app.post("/login", (req, res, next) => {
     }
     if (!user) {
       // Authentication failed,
-      //return res.redirect("/login");
       return res.status(500).send({ error: "login failed" });
     }
     // Manually establish the session
@@ -139,7 +138,6 @@ app.post("/login", (req, res, next) => {
         return next(err);
       }
       // Successful authentication, redirect to the home page or dashboard
-      //return res.redirect("/home");
       return res.status(200).json({ message: "Login successful", user: user });
     });
   })(req, res, next);
@@ -154,27 +152,35 @@ app.get("/protected", (req, res) => {
 });
 
 app.get("/get-tweets", async (req, res) => {
-  const connection = mysql.createConnection(dbConfig);
+  try {
+    const results = await getTweets(req.user.UserID);
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching tweets:", error);
+    return res.status(500).send("Error fetching tweets");
+  }
+});
 
-  connection.connect((err) => {
-    if (err) {
-      console.error("Error connecting to the database:", err);
-      return res.status(500).send("Error connecting to the database");
-    }
+app.post("/search-tweets", async (req, res) => {
+  const { searchTerm } = req.body;
+  try {
+    const results = await searchTweets(searchTerm);
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error searching tweets:", error);
+    return res.status(500).send("Error searching tweets");
+  }
+});
 
-    const query = "SELECT * FROM Tweets"; // Assuming you have a table 'tweets'
-
-    connection.query(query, (error, results) => {
-      connection.end();
-
-      if (error) {
-        console.error("Error fetching tweets:", error);
-        return res.status(500).send("Error fetching tweets");
-      }
-
-      res.status(200).json(results);
-    });
-  });
+app.post("/search-users", async (req, res) => {
+  const { searchTerm } = req.body;
+  try {
+    const results = await searchUsers(searchTerm);
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error searching users:", error);
+    return res.status(500).send("Error searching users");
+  }
 });
 
 app.post("/upload", upload.single("image"), (req, res) => {
@@ -188,24 +194,9 @@ app.post("/upload", upload.single("image"), (req, res) => {
   }
 });
 
-async function saveTweetToDatabase(userID, text, imageUrl) {
-  const db = mysql.createConnection(dbConfig);
-  return new Promise((resolve, reject) => {
-    const query =
-      "INSERT INTO Tweets (UserID, Content, imageURL) VALUES (?, ?, ?)";
-    db.query(query, [userID, text, imageUrl], (err, result) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(result);
-    });
-  });
-}
-
 app.post("/post-tweet", async (req, res) => {
   const { tweet, imageUrl } = req.body;
-  console.log("req user", req.user);
+
   // Extract text and imageUrl from request body
   try {
     // Assuming you have a database function to save a tweet
