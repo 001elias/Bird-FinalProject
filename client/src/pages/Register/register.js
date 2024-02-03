@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./register.css";
-import Logo from "../img/Harelogofinal202339.png";
+import Logo from "../../img/Harelogofinal202339.png";
+
 function clearAllCookies() {
   document.cookie.split(";").forEach(function (c) {
     document.cookie =
@@ -102,7 +103,7 @@ function Register() {
       </form>
       <div className="login-footer">
         <p>
-          Already have an account? <a href="login.html">Sign in</a>
+          Already have an account? <Link to="/login">Sign in</Link>
         </p>
       </div>
     </div>

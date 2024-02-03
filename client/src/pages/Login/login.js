@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
+import { useNavigate, Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import "./login.css";
-import Logo from "../img/Harelogofinal202339.png";
+import Logo from "../../img/Harelogofinal202339.png";
 
 function clearAllCookies() {
   document.cookie.split(";").forEach(function (c) {
@@ -75,7 +75,7 @@ function Login() {
       <div className="login-footer">
         <a href="#">Forgot password?</a>
         <p>
-          Don't have an account? <a href="/register">Sign up</a>
+          Don't have an account? <Link to="/register">Sign up</Link>
         </p>
       </div>
     </div>

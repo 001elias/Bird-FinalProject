@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import ProfileCard from "../components/profileCard";
 import Card from "../components/card";
 import Spinner from "../components/spinner";
+import { searchTweets, searchUsers } from "../api/apis";
 
 function Search() {
   let location = useLocation();
@@ -13,49 +14,15 @@ function Search() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function searchTweets() {
-      try {
-        const response = await fetch("/search-tweets", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ searchTerm: location.state.searchTerm }),
-        }); // Adjust the endpoint as necessary
-        if (response.ok) {
-          const data = await response.json();
-          setTweets(data);
-        } else {
-          // Handle HTTP errors
-          console.error("Failed to fetch search results:", response.statusText);
-        }
-      } catch (error) {
-        // Handle network errors
-        console.error("Network error when fetching search results:", error);
-      }
-    }
-
-    async function searchUsers() {
-      try {
-        const response = await fetch("/search-users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ searchTerm: location.state.searchTerm }),
-        }); // Adjust the endpoint as necessary
-        if (response.ok) {
-          const data = await response.json();
-          setUsers(data);
-          setLoading(false);
-        } else {
-          // Handle HTTP errors
-          console.error("Failed to fetch search results:", response.statusText);
-        }
-      } catch (error) {
-        // Handle network errors
-        console.error("Network error when fetching search results:", error);
-      }
-    }
     setLoading(true);
-    searchTweets();
-    searchUsers();
+    searchTweets(location.state.searchTerm).then((data) => {
+      setTweets(data);
+    });
+    searchUsers(location.state.searchTerm).then((data) => {
+      setUsers(data);
+    });
+
+    setLoading(false);
   }, [location.state.searchTerm]);
 
   function renderTweets() {
@@ -86,7 +53,11 @@ function Search() {
       <div>
         {users.length > 0 ? (
           users.map((user, index) => (
-            <ProfileCard key={`profile${index}`} userInfo={user} />
+            <ProfileCard
+              key={`profile${index}`}
+              userInfo={user}
+              onFollow={handleFollow}
+            />
           ))
         ) : (
           <div class="alert alert-danger" role="alert">
@@ -95,6 +66,17 @@ function Search() {
         )}
       </div>
     );
+  }
+
+  function handleFollow(userId) {
+    /* Update the following status of the user with userId == userId passed in input*/
+    const updatedUsers = users.map((user, index) => {
+      if (user.UserID == userId) {
+        user.Following = !user.Following;
+      }
+      return user;
+    });
+    setUsers(updatedUsers);
   }
 
   return (

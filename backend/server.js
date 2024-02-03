@@ -15,10 +15,13 @@ const multer = require("multer");
 const multerS3 = require("multer-s3");
 
 const {
-  getTweets,
+  getHomeTweets,
+  getUserTweets,
   searchTweets,
   searchUsers,
   saveTweetToDatabase,
+  followUser,
+  unfollowUser,
 } = require("./queries");
 
 require("dotenv").config();
@@ -151,9 +154,16 @@ app.get("/protected", (req, res) => {
   }
 });
 
-app.get("/get-tweets", async (req, res) => {
+app.get("/get-tweets/:userId?", async (req, res) => {
   try {
-    const results = await getTweets(req.user.UserID);
+    if (!req.user) return res.status(500).send("Authentication required");
+
+    let results;
+    if (!req.params.userId) {
+      results = await getHomeTweets(req.user.UserID);
+    } else {
+      results = await getUserTweets(req.params.userId);
+    }
     res.status(200).json(results);
   } catch (error) {
     console.error("Error fetching tweets:", error);
@@ -175,11 +185,31 @@ app.post("/search-tweets", async (req, res) => {
 app.post("/search-users", async (req, res) => {
   const { searchTerm } = req.body;
   try {
-    const results = await searchUsers(searchTerm);
+    const results = await searchUsers(req.user.UserID, searchTerm);
     res.status(200).json(results);
   } catch (error) {
     console.error("Error searching users:", error);
     return res.status(500).send("Error searching users");
+  }
+});
+
+app.post("/follow/:followedUserId", async (req, res) => {
+  try {
+    await followUser(req.user.UserID, req.params.followedUserId);
+    res.status(200).json({ message: "ok" });
+  } catch (error) {
+    console.error("Error following:", error);
+    return res.status(500).send("Error following");
+  }
+});
+
+app.post("/unfollow/:followedUserId", async (req, res) => {
+  try {
+    await unfollowUser(req.user.UserID, req.params.followedUserId);
+    res.status(200).json({ message: "ok" });
+  } catch (error) {
+    console.error("Error following:", error);
+    return res.status(500).send("Error following");
   }
 });
 

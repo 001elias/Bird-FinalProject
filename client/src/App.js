@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider, AuthContext } from "./context/AuthContext";
-import Login from "./pages/login";
-import Register from "./pages/register";
+import Login from "./pages/Login/login";
+import Register from "./pages/Register/register";
 import Home from "./pages/Home/home";
 import Navbar from "./components/navbar";
 import TweetForm from "./pages/tweetForm";
-import TopBar from "./pages/topbar";
+import TopBar from "./components/topbar";
 import Profile from "./pages/profile";
 import Search from "./pages/search";
 
