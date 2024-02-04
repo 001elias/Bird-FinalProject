@@ -70,10 +70,11 @@ app.use(
 
 // CORS configuration
 app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN, // Your frontend domain
-    credentials: true,
-  })
+  // cors({
+  //   origin: process.env.CORS_ORIGIN, // Your frontend domain
+  //   credentials: true,
+  // })
+  cors()
 );
 
 // Passport middleware
