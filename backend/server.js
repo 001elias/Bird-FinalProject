@@ -19,13 +19,17 @@ const {
   getUserTweets,
   searchTweets,
   searchUsers,
+  getAllUsers,
   saveTweet,
+  deleteTweet,
   followUser,
   unfollowUser,
   getUserProfile,
   saveProfile,
   getFollowers,
   getFollowing,
+  blockUser,
+  deleteUser,
 } = require("./queries");
 
 require("dotenv").config();
@@ -129,6 +133,7 @@ app.use(
   })
 );
 
+/* Login route */
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
@@ -137,7 +142,9 @@ app.post("/login", (req, res, next) => {
     }
     if (!user) {
       // Authentication failed,
-      return res.status(500).send({ error: "login failed" });
+      return res
+        .status(500)
+        .send({ error: "login failed. Wrong password or username" });
     }
     // Manually establish the session
     req.logIn(user, (err) => {
@@ -150,6 +157,7 @@ app.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+/* testing auth */
 app.get("/protected", (req, res) => {
   if (req.isAuthenticated()) {
     res.send("Access granted to protected page");
@@ -157,6 +165,10 @@ app.get("/protected", (req, res) => {
     res.send("Access denied");
   }
 });
+
+/* returns either the home page tweets : user + followed 
+  OR returns all user's tweets
+*/
 
 app.get("/get-tweets/:userId?", async (req, res) => {
   try {
@@ -175,7 +187,10 @@ app.get("/get-tweets/:userId?", async (req, res) => {
   }
 });
 
+/* search for tweets with a specifc string in the content*/
 app.post("/search-tweets", async (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+
   const { searchTerm } = req.body;
   try {
     const results = await searchTweets(searchTerm);
@@ -186,7 +201,24 @@ app.post("/search-tweets", async (req, res) => {
   }
 });
 
+/* deletes a specific tweet*/
+app.post("/delete-tweet/:tweetID", async (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+  if (!req.user.isAdmin) return res.status(401).send("Unauthorized access");
+
+  try {
+    await deleteTweet(req.params.tweetID);
+    res.status(200).json({ message: "ok" });
+  } catch (error) {
+    console.error("Error deleting tweet", error, req.params.tweetID);
+    return res.status(500).send("Error deleting tweet");
+  }
+});
+
+/* search for users with a specifc string in the content*/
 app.post("/search-users", async (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+
   const { searchTerm } = req.body;
   try {
     const results = await searchUsers(req.user.UserID, searchTerm);
@@ -197,7 +229,52 @@ app.post("/search-users", async (req, res) => {
   }
 });
 
+/* get all users from the User table except admin*/
+app.get("/all-users", async (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+  if (!req.user.isAdmin) return res.status(401).send("Unauthorized access");
+
+  try {
+    const results = await getAllUsers();
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    return res.status(500).send("Error fetching all users");
+  }
+});
+
+/* blocks a specific user*/
+app.post("/block-user/:userID/:isBlocked", async (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+  if (!req.user.isAdmin) return res.status(401).send("Unauthorized access");
+
+  try {
+    await blockUser(req.params.userID, req.params.isBlocked == "true");
+    res.status(200).json({ message: "ok" });
+  } catch (error) {
+    console.error("Error blocking user", error, req.params.userName);
+    return res.status(500).send("Error blocking user");
+  }
+});
+
+/* deletes a specific user*/
+app.post("/delete-user/:userID", async (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+  if (!req.user.isAdmin) return res.status(401).send("Unauthorized access");
+
+  try {
+    await deleteUser(req.params.userID);
+    res.status(200).json({ message: "ok" });
+  } catch (error) {
+    console.error("Error deleting user", error, req.params.userID);
+    return res.status(500).send("Error deleting user");
+  }
+});
+
+/* Follow a user */
 app.post("/follow/:followedUserId", async (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+
   try {
     await followUser(req.user.UserID, req.params.followedUserId);
     res.status(200).json({ message: "ok" });
@@ -207,7 +284,9 @@ app.post("/follow/:followedUserId", async (req, res) => {
   }
 });
 
+/* un Follow a user */
 app.post("/unfollow/:followedUserId", async (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
   try {
     await unfollowUser(req.user.UserID, req.params.followedUserId);
     res.status(200).json({ message: "ok" });
@@ -217,7 +296,10 @@ app.post("/unfollow/:followedUserId", async (req, res) => {
   }
 });
 
+/* uploads a file to Amazon S3 */
 app.post("/upload", upload.single("image"), (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+
   if (req.file) {
     res.json({
       message: "Successfully uploaded",
@@ -228,7 +310,10 @@ app.post("/upload", upload.single("image"), (req, res) => {
   }
 });
 
+/* saves a tweet to the database */
 app.post("/post-tweet", async (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+
   // Extract text and imageUrl from request body
   const { tweet, imageUrl } = req.body;
   try {
@@ -241,6 +326,7 @@ app.post("/post-tweet", async (req, res) => {
   }
 });
 
+/* get a complete user profile with stats + is the logged use following the user*/
 app.get("/get-profile/:userName", async (req, res) => {
   try {
     if (!req.user) return res.status(500).send("Authentication required");
@@ -253,6 +339,7 @@ app.get("/get-profile/:userName", async (req, res) => {
   }
 });
 
+/* Updates a user profile */
 app.post("/save-profile", async (req, res) => {
   try {
     if (!req.user) return res.status(500).send("Authentication required");
@@ -266,6 +353,7 @@ app.post("/save-profile", async (req, res) => {
   }
 });
 
+/* fetches the list of a user's followers*/
 app.get("/get-followers/:userName", async (req, res) => {
   try {
     if (!req.user) return res.status(500).send("Authentication required");
@@ -278,6 +366,7 @@ app.get("/get-followers/:userName", async (req, res) => {
   }
 });
 
+/* fetches the list of peopl a given user is following*/
 app.get("/get-following/:userName", async (req, res) => {
   try {
     if (!req.user) return res.status(500).send("Authentication required");
@@ -289,6 +378,7 @@ app.get("/get-following/:userName", async (req, res) => {
     return res.status(500).send("Error fetching following");
   }
 });
+
 // Logout
 app.get("/logout", (req, res) => {
   req.logout(function (err) {
@@ -314,6 +404,8 @@ app.use(bodyParser.json());
 
 // Create a route to test the database connection
 app.get("/test-connection", (req, res) => {
+  if (!req.user) return res.status(500).send("Authentication required");
+
   const connection = mysql.createConnection(dbConfig);
   connection.connect((err) => {
     if (err) {

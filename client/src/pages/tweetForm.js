@@ -87,6 +87,7 @@ function TweetForm() {
                       <button
                         className="btn btn-info float-right"
                         type="submit"
+                        disabled={tweet.length === 0}
                       >
                         Post
                       </button>

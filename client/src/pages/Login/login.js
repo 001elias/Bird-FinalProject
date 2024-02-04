@@ -36,9 +36,17 @@ function Login() {
 
     if (response.ok) {
       const data = await response.json();
+      if (data.user.isBlocked) {
+        setErrorMessage(
+          "Your account has been suspended. Please contact support."
+        );
+        return;
+      }
       setLoggedUser(data.user);
       setIsLoggedIn(true); // Update the context's state
       localStorage.setItem("isLoggedIn", "true"); // Optionally update localStorage
+      localStorage.setItem("loggedUser", JSON.stringify(data.user)); // Optionally update localStorage
+
       navigate("/home"); // Redirect to the home page
     } else {
       // Handle login failure
@@ -52,7 +60,7 @@ function Login() {
       <img src={Logo} alt="Hare Logo" className="logo" />
       <h1>Sign in to Hare</h1>
       <div className="divider">Use your Username and Password</div>
-      {errorMessage}
+      {errorMessage && <p className="alert alert-danger">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <input
           type="text"

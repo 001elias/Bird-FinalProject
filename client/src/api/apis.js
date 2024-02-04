@@ -108,6 +108,95 @@ export async function getFollowing(userID) {
   return data;
 }
 
+export async function getAllUsers() {
+  const data = await get("/all-users");
+  return data;
+}
+
+export async function blockUser(userID, isBlocked) {
+  try {
+    const response = await fetch(`/block-user/${userID}/${isBlocked}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      // Handle HTTP errors
+      console.error("Failed to blockUser results:", response.statusText);
+      return null;
+    }
+  } catch (error) {
+    // Handle network errors
+    console.error("Network error when blocking user:", error);
+    return null;
+  }
+}
+
+export async function deblockUser(userID, isBlocked) {
+  try {
+    const response = await fetch(`/block-user/${userID}/${isBlocked}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      // Handle HTTP errors
+      console.error("Failed to blockUser results:", response.statusText);
+      return null;
+    }
+  } catch (error) {
+    // Handle network errors
+    console.error("Network error when blocking user:", error);
+    return null;
+  }
+}
+
+export async function deleteUser(userID) {
+  try {
+    const response = await fetch(`/delete-user/${userID}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      // Handle HTTP errors
+      console.error("Failed to delete user:", response.statusText);
+      return null;
+    }
+  } catch (error) {
+    // Handle network errors
+    console.error("Network error when deleting user:", error);
+    return null;
+  }
+}
+
+export async function deleteTweet(tweetID) {
+  try {
+    const response = await fetch(`/delete-tweet/${tweetID}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      // Handle HTTP errors
+      console.error("Failed to delete tweet:", response.statusText);
+      return null;
+    }
+  } catch (error) {
+    // Handle network errors
+    console.error("Network error when deleting tweet:", error);
+    return null;
+  }
+}
+
 async function get(url) {
   try {
     const response = await fetch(url);

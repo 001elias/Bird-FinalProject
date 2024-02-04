@@ -55,21 +55,18 @@ function TopBar({ userInfo }) {
       >
         <div className="d-flex align-items-center">
           <p className="text-white mb-0 flex-grow-1">{userInfo.Username}</p>
-          <Link to={`/profile/${userInfo.Username}`} className="btn btn-link">
-            <img
-              src={userInfo.AvatarURL || DefaultUserAvatar}
-              alt="User Picture"
-              className="profile-picture-small"
-            />
-          </Link>
+          {!userInfo.isAdmin && (
+            <Link to={`/profile/${userInfo.Username}`} className="btn btn-link">
+              <img
+                src={userInfo.AvatarURL || DefaultUserAvatar}
+                alt="User Picture"
+                className="profile-picture-small"
+              />
+            </Link>
+          )}
         </div>
       </div>
     );
-  }
-
-  function handleProfileClick() {
-    // Redirect to user profile
-    navigate("./profile", { state: { userName: userInfo.Username } });
   }
 
   function handleSearch(e) {
@@ -91,7 +88,7 @@ function TopBar({ userInfo }) {
       {renderLogo()}
 
       {/* Centered column */}
-      {renderSearch()}
+      {!userInfo.isAdmin && renderSearch()}
 
       {/* Right-aligned column */}
       {renderUserInfo()}

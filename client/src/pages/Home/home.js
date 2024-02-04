@@ -2,12 +2,13 @@ import React, { useState, useEffect, useContext } from "react"; // Make sure the
 
 import Card from "../../components/card";
 import { AuthContext } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import Hashtags from "../../components/hashtags";
+import { useNavigate, Link } from "react-router-dom";
+import Spinner from "../../components/spinner";
 
 function Home() {
-  const [tweets, setTweets] = useState([]);
   const { isLoggedIn } = useContext(AuthContext);
+  const [tweets, setTweets] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   if (!isLoggedIn) navigate("/login");
@@ -15,6 +16,7 @@ function Home() {
   useEffect(() => {
     async function fetchTweets() {
       try {
+        setLoading(true);
         const response = await fetch("/get-tweets"); // Adjust the endpoint as necessary
         if (response.ok) {
           const data = await response.json();
@@ -26,6 +28,8 @@ function Home() {
       } catch (error) {
         // Handle network errors
         console.error("Network error when fetching tweets:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -37,9 +41,9 @@ function Home() {
       <div className="row mt-3">
         <div className="col-md-3"></div>
         <div className="col-md-6">
-          <div>
-            {/* Loop through tweets and create a Card for each */}
-            {tweets.map((tweet, index) => (
+          {/* Loop through tweets and create a Card for each */}
+          {tweets &&
+            tweets.map((tweet, index) => (
               <Card
                 key={index}
                 userName={tweet.Username}
@@ -49,7 +53,22 @@ function Home() {
                 tweetImage={tweet.ImageURL}
               />
             ))}
-          </div>
+          {loading && tweets == null ? (
+            <Spinner />
+          ) : (
+            tweets &&
+            tweets.length == 0 && (
+              <div className="mx-auto" style={{ width: "500px" }}>
+                <h1>Nothing to display here</h1>
+                <p>
+                  Time to post your first Tweet !
+                  <Link to="/tweet" className="ml-2 btn btn-info">
+                    Post
+                  </Link>
+                </p>
+              </div>
+            )
+          )}
         </div>
 
         {/* <Hashtags /> */}

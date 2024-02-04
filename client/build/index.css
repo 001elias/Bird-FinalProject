@@ -127,7 +127,7 @@ body {
   }
   
   .card{
-    background-color: rgb(53, 52, 52);
+    background-color: #495057;
   }
 
   .user-card{
@@ -176,7 +176,7 @@ body {
    
 
   .card{
-    min-width: 400px;
+    min-width: 500px;
     max-width: 700px;
   }
 

@@ -11,6 +11,7 @@ import Profile from "./pages/Profile/profile";
 import Search from "./pages/search";
 import Hashtags from "./components/hashtags";
 import EditProfile from "./pages/Profile/editProfile";
+import Admin from "./pages/Admin/admin";
 
 function App() {
   return (
@@ -23,27 +24,45 @@ function App() {
 }
 
 function Main() {
-  const { isLoggedIn, loggedUser } = useContext(AuthContext);
-
+  const { isLoggedIn, setIsLoggedIn, loggedUser, setLoggedUser } =
+    useContext(AuthContext);
   // useEffect(() => {
+  //   const user = localStorage.getItem("loggedUser");
+
+  //   if (user) {
+  //     setLoggedUser(user);
+  //   }
   //   const loggedIn = localStorage.getItem("isLoggedIn") === "true";
   //   setIsLoggedIn(loggedIn);
-  // }, [setIsLoggedIn]);
+  // }, [isLoggedIn]);
 
+  //  useEffect(() => {
+  //    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+  //    setIsLoggedIn(loggedIn);
+  //  }, [setIsLoggedIn]);
+
+  function getHomePageComponent() {
+    if (isLoggedIn) {
+      if (!loggedUser.isAdmin) return <Home />;
+      return <Admin />;
+    } else {
+      return <Login />;
+    }
+  }
   return (
     <>
       {isLoggedIn && (
         <>
           <TopBar userInfo={loggedUser} />
-          <Navbar />
-          <Hashtags />
+          <Navbar userInfo={loggedUser} />
+          {!loggedUser.isAdmin && <Hashtags />}
         </>
       )}
       <Routes>
         <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={isLoggedIn ? <Home /> : <Login />} />
+        <Route path="/home" element={getHomePageComponent()} />
         <Route path="/tweet" element={isLoggedIn ? <TweetForm /> : <Login />} />
         <Route
           path="/profile/:username"

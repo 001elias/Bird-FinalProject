@@ -1,0 +1,32 @@
+
+
+  .heading {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid gray; /* Updated border color */
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  .heading p {
+    display: block;
+    cursor: pointer;
+    margin-bottom: 10px;
+    color: goldenrod; /* Updated text color */
+  }
+  
+  .heading .active {
+    border: solid 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+  } 
+  
+  .heading p:hover {
+    background: darkgoldenrod; /* Updated background color for hover */
+  }
+
+  .section-content {
+    display: flex;
+    margin: 15px 0 15px 0;
+    margin-bottom: 800px;
+  }

@@ -9,7 +9,7 @@ import logouticon from "../img/Logout(transparent).png";
 import { AuthContext } from "../context/AuthContext";
 
 /* Navigation side bar on the left */
-function Navbar() {
+function Navbar({ userInfo }) {
   const { setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -25,6 +25,7 @@ function Navbar() {
         // Clear client-side state
         setIsLoggedIn(false);
         localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("loggedUser");
 
         // Redirect to login page
         navigate("/login");
@@ -39,26 +40,33 @@ function Navbar() {
   return (
     <div className="col-md-2">
       <div className="list-group">
-        <Link to="/Home" className="list-group-item list-group-item-action">
-          <img src={homeicon} alt="Home" className="sidebar-icon" />
-          Home
-        </Link>
-        <Link to="/tweet" className="list-group-item list-group-item-action">
-          <img src={posticon} alt="Post" className="sidebar-icon" />
-          Tweet
-        </Link>
-        <Link to="#" className="list-group-item list-group-item-action">
-          <img
-            src={notificationsicon}
-            alt="Notifications"
-            className="sidebar-icon"
-          />
-          Notifications
-        </Link>
-        <Link to="#" className="list-group-item list-group-item-action">
-          <img src={messagesicon} alt="Messages" className="sidebar-icon" />
-          Messages
-        </Link>
+        {!userInfo.isAdmin && (
+          <>
+            <Link to="/Home" className="list-group-item list-group-item-action">
+              <img src={homeicon} alt="Home" className="sidebar-icon" />
+              Home
+            </Link>
+            <Link
+              to="/tweet"
+              className="list-group-item list-group-item-action"
+            >
+              <img src={posticon} alt="Post" className="sidebar-icon" />
+              Tweet
+            </Link>
+            <Link to="#" className="list-group-item list-group-item-action">
+              <img
+                src={notificationsicon}
+                alt="Notifications"
+                className="sidebar-icon"
+              />
+              Notifications
+            </Link>
+            <Link to="#" className="list-group-item list-group-item-action">
+              <img src={messagesicon} alt="Messages" className="sidebar-icon" />
+              Messages
+            </Link>
+          </>
+        )}
 
         <a
           href="#"
