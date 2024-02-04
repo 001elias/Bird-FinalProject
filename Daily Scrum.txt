@@ -152,3 +152,11 @@ Elias: User can now see tweets from  people they are following (follow button no
 Elias: Edit profile, admin dashboard (and maybe messages)
 3) difficulties we expect to face today
 Elias: time constraints
+----------------------------------------------------------------------------------------------
+Feb 3rd 2024
+1) what we did since last meeting:
+Elias: Finished profile page implementation + finished edit profile + following/followers functionality
+2) what we plan on doing today:
+Elias: Admin dashboard and deploying to heroku 
+3) difficulties we expect to face today:
+Elias: New to heroku, might run into deployment issues
