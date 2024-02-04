@@ -68,6 +68,14 @@ app.use(
   })
 );
 
+// CORS configuration
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN, // Your frontend domain
+    credentials: true,
+  })
+);
+
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
@@ -126,13 +134,6 @@ passport.deserializeUser((id, done) => {
     }
   );
 });
-
-app.use(
-  cors({
-    origin: process.env.CORS_ORIGIN, // Your frontend domain
-    credentials: true,
-  })
-);
 
 /* Login route */
 app.post("/login", (req, res, next) => {
@@ -450,6 +451,6 @@ app.post("/register", async (req, res) => {
 });
 
 // Start the server
-app.listen(process.env.APP_PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("Server is running on port 3000");
 });
