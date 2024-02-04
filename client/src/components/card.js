@@ -22,11 +22,11 @@ function Card({
       <div className="card-body">
         {!adminMode ? (
           <Link to={`/profile/${userName}`}>
-            <h5 className="card-title">{userName}</h5>
+            <h5 className="card-title">@{userName}</h5>
           </Link>
         ) : (
           <h5 className="card-title">
-            {userName}
+            @{userName}
             {adminMode && (
               <button
                 className="btn btn-danger float-right"

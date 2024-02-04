@@ -31,6 +31,7 @@ const {
   blockUser,
   deleteUser,
 } = require("./queries");
+const { env } = require("process");
 
 require("dotenv").config();
 
@@ -128,7 +129,7 @@ passport.deserializeUser((id, done) => {
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Your frontend domain
+    origin: process.env.CORS_ORIGIN, // Your frontend domain
     credentials: true,
   })
 );
