@@ -19,9 +19,13 @@ const {
   getUserTweets,
   searchTweets,
   searchUsers,
-  saveTweetToDatabase,
+  saveTweet,
   followUser,
   unfollowUser,
+  getUserProfile,
+  saveProfile,
+  getFollowers,
+  getFollowing,
 } = require("./queries");
 
 require("dotenv").config();
@@ -225,12 +229,11 @@ app.post("/upload", upload.single("image"), (req, res) => {
 });
 
 app.post("/post-tweet", async (req, res) => {
-  const { tweet, imageUrl } = req.body;
-
   // Extract text and imageUrl from request body
+  const { tweet, imageUrl } = req.body;
   try {
     // Assuming you have a database function to save a tweet
-    await saveTweetToDatabase(req.user.UserID, tweet, imageUrl);
+    await saveTweet(req.user.UserID, tweet, imageUrl);
     res.status(201).send({ message: "Tweet posted successfully" });
   } catch (error) {
     console.error("Error posting tweet:", error);
@@ -238,6 +241,54 @@ app.post("/post-tweet", async (req, res) => {
   }
 });
 
+app.get("/get-profile/:userName", async (req, res) => {
+  try {
+    if (!req.user) return res.status(500).send("Authentication required");
+
+    const results = await getUserProfile(req.user.UserID, req.params.userName);
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    return res.status(500).send("Error fetching profile");
+  }
+});
+
+app.post("/save-profile", async (req, res) => {
+  try {
+    if (!req.user) return res.status(500).send("Authentication required");
+
+    const { profileInfo, avatarUrl } = req.body;
+    const results = await saveProfile(profileInfo, avatarUrl);
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error saving profile:", error);
+    return res.status(500).send("Error saving profile");
+  }
+});
+
+app.get("/get-followers/:userName", async (req, res) => {
+  try {
+    if (!req.user) return res.status(500).send("Authentication required");
+
+    const results = await getFollowers(req.user.UserID, req.params.userName);
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching followers:", error);
+    return res.status(500).send("Error fetching followers");
+  }
+});
+
+app.get("/get-following/:userName", async (req, res) => {
+  try {
+    if (!req.user) return res.status(500).send("Authentication required");
+
+    const results = await getFollowing(req.user.UserID, req.params.userName);
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error fetching following:", error);
+    return res.status(500).send("Error fetching following");
+  }
+});
 // Logout
 app.get("/logout", (req, res) => {
   req.logout(function (err) {
@@ -254,6 +305,7 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Handles any requests that don't match the ones above
 app.get("*", (req, res) => {
+  console.log("Sending index.html");
   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
 

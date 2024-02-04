@@ -14,16 +14,18 @@ function Search() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    searchTweets(location.state.searchTerm).then((data) => {
-      setTweets(data);
-    });
-    searchUsers(location.state.searchTerm).then((data) => {
-      setUsers(data);
-    });
+    if (location.state) {
+      setLoading(true);
+      searchTweets(location.state.searchTerm).then((data) => {
+        setTweets(data);
+      });
+      searchUsers(location.state.searchTerm).then((data) => {
+        setUsers(data);
+      });
 
-    setLoading(false);
-  }, [location.state.searchTerm]);
+      setLoading(false);
+    }
+  }, [location.state?.searchTerm]);
 
   function renderTweets() {
     return (
@@ -78,6 +80,8 @@ function Search() {
     });
     setUsers(updatedUsers);
   }
+
+  if (!location.state) return null;
 
   return (
     <div class="container-fluid centered-content">

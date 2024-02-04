@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import DefaultUserAvatar from "../img/DefaultUser.jpg";
 import { Link } from "react-router-dom";
 import { followUser, unFollowUser } from "../api/apis";
+import { AuthContext } from "../context/AuthContext";
 
 function ProfileCard({ userInfo, onFollow }) {
+  const { loggedUser } = useContext(AuthContext);
+
   async function handleFollow() {
     let result;
     if (userInfo.Following) {
@@ -26,9 +29,11 @@ function ProfileCard({ userInfo, onFollow }) {
       <div className="card-body">
         <h5 className="card-title">
           <Link to={`/profile/${userInfo.Username}`}>{userInfo.Username}</Link>
-          <button className="btn btn-info float-right" onClick={handleFollow}>
-            {userInfo.Following ? "UnFollow" : "Follow"}
-          </button>
+          {userInfo.UserID != loggedUser.UserID ? (
+            <button className="btn btn-info float-right" onClick={handleFollow}>
+              {userInfo.Following ? "UnFollow" : "Follow"}
+            </button>
+          ) : null}
         </h5>
       </div>
     </div>

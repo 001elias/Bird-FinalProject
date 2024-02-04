@@ -7,8 +7,10 @@ import Home from "./pages/Home/home";
 import Navbar from "./components/navbar";
 import TweetForm from "./pages/tweetForm";
 import TopBar from "./components/topbar";
-import Profile from "./pages/profile";
+import Profile from "./pages/Profile/profile";
 import Search from "./pages/search";
+import Hashtags from "./components/hashtags";
+import EditProfile from "./pages/Profile/editProfile";
 
 function App() {
   return (
@@ -34,6 +36,7 @@ function Main() {
         <>
           <TopBar userInfo={loggedUser} />
           <Navbar />
+          <Hashtags />
         </>
       )}
       <Routes>
@@ -45,6 +48,10 @@ function Main() {
         <Route
           path="/profile/:username"
           element={isLoggedIn ? <Profile /> : <Login />}
+        />
+        <Route
+          path="/edit-profile/:username"
+          element={isLoggedIn ? <EditProfile /> : <Login />}
         />
         <Route path="/search" element={isLoggedIn ? <Search /> : <Login />} />
         {/* ... other routes */}

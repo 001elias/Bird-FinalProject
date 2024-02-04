@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from "react"; // Make sure the
 import Card from "../../components/card";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import Hashtags from "./hashtags";
+import Hashtags from "../../components/hashtags";
 
 function Home() {
   const [tweets, setTweets] = useState([]);
@@ -52,8 +52,7 @@ function Home() {
           </div>
         </div>
 
-        {/* Hashtags */}
-        <Hashtags />
+        {/* <Hashtags /> */}
       </div>
     </div>
   );
