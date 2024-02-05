@@ -137,10 +137,12 @@ Feb 1st 2024
 1) what we did since last meeting:
 Elias: User can now post tweets with images, fixed  bugs in image upload and added error handling
 Zachary: Created profile page, worked on style/html for create a tweet.
+Ayman: Worked on the powerpoint
 
 2) what we plan on doing today
 Elias: Focus on the followers
 Zachary: Make some more icons, work on the power point, create a sql query to add some data into the database
+Ayman: Create the frontend for admin panel
 
 3) difficulties we expect to face today
 Elias: Dealing with query errors 
@@ -149,10 +151,12 @@ Feb 2nd 2024
 1) what we did since last meeting:
 Elias: User can now see tweets from people they are following (follow button not done), User can now search for tweets and users
 Zachary: Created Icons and did the powerpoint
+Ayman: Worked on frontend for amin panel.
 
 2) what we plan on doing today
 Elias: Edit profile, admin dashboard (and maybe messages)
 Zachary: perfecting the powerpoint and adding to the database
+Ayman: Finalize the frontend for everthing.
 
 3) difficulties we expect to face today
 Elias: time constraints
@@ -162,7 +166,9 @@ Zachary: connectivity issues
 Feb 3rd 2024
 1) what we did since last meeting:
 Elias: Finished profile page implementation + finished edit profile + following/followers functionality
+AymanL Finished the frontend for all pages.
 2) what we plan on doing today:
 Elias: Admin dashboard and deploying to heroku 
+Ayman: Finalize the powerpoint.
 3) difficulties we expect to face today:
 Elias: New to heroku, might run into deployment issues
