@@ -398,7 +398,6 @@ app.use(express.static(path.join(__dirname, "../client/build")));
 
 // Handles any requests that don't match the ones above
 app.get("*", (req, res) => {
-  console.log("Sending index.html");
   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
 });
 

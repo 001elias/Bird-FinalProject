@@ -5,8 +5,8 @@
   "main": "backend/server.js",
   "devDependencies": {},
   "scripts": {
-    "start": "node backend/server.js",
-    "build": "cd client && npm install && npm run build"
+    "start": "cd backend && npm start",
+    "build": "cd client && npm run build"
   },
   "author": "",
   "license": "ISC"
