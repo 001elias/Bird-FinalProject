@@ -26,10 +26,6 @@
       "build": "cd client && npm run build"
     },
     "author": "",
-    "license": "ISC",
-    "engines": {
-        "node": "20.11.0",
-        "npm": "10.2.4"
-      }
+    "license": "ISC"
   }
   
