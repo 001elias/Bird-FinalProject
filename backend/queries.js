@@ -1,6 +1,5 @@
 const mysql = require("mysql");
 const dbConfig = require("./config/dbConfig");
-const { CloudFrontCustomizations } = require("aws-sdk/lib/services/cloudfront");
 
 /* search for tweets with a specifc string in the content*/
 async function searchTweets(searchTerm) {
