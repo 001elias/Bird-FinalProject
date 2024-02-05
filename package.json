@@ -4,6 +4,9 @@
     "description": "A simplistic twitter clone using React, NodeJS , Mysql (AWS), express and s3 storage for image uploads. \r ![OIG4 (3) 1](https://github.com/001elias/Hare-FinalProject/assets/87620595/d2f6b8f3-0973-4611-afe2-9c659fa25123)",
     "main": "backend/server.js",
     "devDependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^6.21.3",
         "react-scripts": "5.0.1"
     },
     "scripts": {
