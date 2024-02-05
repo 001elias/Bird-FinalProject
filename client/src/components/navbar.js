@@ -53,18 +53,6 @@ function Navbar({ userInfo }) {
               <img src={posticon} alt="Post" className="sidebar-icon" />
               Tweet
             </Link>
-            <Link to="#" className="list-group-item list-group-item-action">
-              <img
-                src={notificationsicon}
-                alt="Notifications"
-                className="sidebar-icon"
-              />
-              Notifications
-            </Link>
-            <Link to="#" className="list-group-item list-group-item-action">
-              <img src={messagesicon} alt="Messages" className="sidebar-icon" />
-              Messages
-            </Link>
           </>
         )}
 

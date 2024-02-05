@@ -3,17 +3,33 @@
     "version": "1.0.0",
     "description": "A simplistic twitter clone using React, NodeJS , Mysql (AWS), express and s3 storage for image uploads. \r ![OIG4 (3) 1](https://github.com/001elias/Hare-FinalProject/assets/87620595/d2f6b8f3-0973-4611-afe2-9c659fa25123)",
     "main": "backend/server.js",
-    "devDependencies": {
+    "dependencies": {
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-router-dom": "^6.21.3",
-        "react-scripts": "5.0.1"
+        "react-scripts": "5.0.1",
+        "aws-sdk": "^2.1547.0",
+        "bcrypt": "^5.1.1",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.1",
+        "express": "^4.18.2",
+        "express-session": "^1.18.0",
+        "multer": "^1.4.5-lts.1",
+        "multer-s3": "^3.0.1",
+        "mysql": "^2.18.1",
+        "nodemon": "^3.0.3",
+        "passport": "^0.7.0",
+        "passport-local": "^1.0.0"
     },
     "scripts": {
       "start": "cd backend && npm start",
       "build": "cd client && npm run build"
     },
     "author": "",
-    "license": "ISC"
+    "license": "ISC",
+    "engines": {
+        "node": "20.11.0",
+        "npm": "10.2.4"
+      }
   }
   
