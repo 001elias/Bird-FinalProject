@@ -23,7 +23,7 @@
     },
     "scripts": {
       "start": "cd backend && npm start",
-      "build": "cd client && npm run build"
+      "build": "cd backend && npm run build"
     },
     "author": "",
     "license": "ISC"
