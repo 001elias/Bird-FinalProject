@@ -147,11 +147,17 @@ Elias: Dealing with query errors
 ----------------------------------------------------------------------------------------------
 Feb 2nd 2024
 1) what we did since last meeting:
-Elias: User can now see tweets from  people they are following (follow button not done), User can now search for tweets and users
+Elias: User can now see tweets from people they are following (follow button not done), User can now search for tweets and users
+Zachary: Created Icons and did the powerpoint
+
 2) what we plan on doing today
 Elias: Edit profile, admin dashboard (and maybe messages)
+Zachary: perfecting the powerpoint and adding to the database
+
 3) difficulties we expect to face today
 Elias: time constraints
+Zachary: connectivity issues
+
 ----------------------------------------------------------------------------------------------
 Feb 3rd 2024
 1) what we did since last meeting:
