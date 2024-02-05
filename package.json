@@ -22,8 +22,7 @@
         "passport-local": "^1.0.0"
     },
     "scripts": {
-      "start": "cd backend && npm start",
-      "build": "cd client && npm run build"
+      "start": "cd backend && npm start"      
     },
     "author": "",
     "license": "ISC"
