@@ -22,7 +22,7 @@
         "passport-local": "^1.0.0"
     },
     "scripts": {
-      "start": "npm start",
+      "start": "cd backend && npm start",
       "build": "cd client && npm run build"
     },
     "author": "",
